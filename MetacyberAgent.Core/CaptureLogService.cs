@@ -118,10 +118,13 @@ public class CaptureLogService : IDisposable
     {
         try
         {
+            var url = $"{_serverUrl}/api/capture/logs";
+            _logger.LogInformation("[HTTP POST] {Url}", url);
             var json    = JsonSerializer.Serialize(entry, new JsonSerializerOptions
             { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{_serverUrl}/api/capture/logs", content);
+            var response = await _httpClient.PostAsync(url, content);
+            _logger.LogInformation("[HTTP POST] {Url} → {Code}", url, (int)response.StatusCode);
 
             if (response.IsSuccessStatusCode)
                 await SendPendingLogsAsync();
@@ -155,10 +158,13 @@ public class CaptureLogService : IDisposable
             }
             try
             {
+                var url = $"{_serverUrl}/api/capture/logs";
+                _logger.LogInformation("[HTTP POST] {Url} (retry)", url);
                 var json    = JsonSerializer.Serialize(entry, new JsonSerializerOptions
                 { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                await _httpClient.PostAsync($"{_serverUrl}/api/capture/logs", content);
+                var resp = await _httpClient.PostAsync(url, content);
+                _logger.LogInformation("[HTTP POST] {Url} → {Code}", url, (int)resp.StatusCode);
             }
             catch
             {

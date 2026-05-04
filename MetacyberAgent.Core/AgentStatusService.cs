@@ -113,12 +113,14 @@ public class AgentStatusService : IDisposable
                 MemoryUsage       = mem
             };
 
+            var url = $"{_serverUrl}/api/agents/status";
+            _logger.LogInformation("[HTTP POST] {Url}", url);
             var json    = JsonSerializer.Serialize(report, new JsonSerializerOptions
             { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            await _httpClient.PostAsync(
-                $"{_serverUrl}/api/agents/status", content, ct);
+            var response = await _httpClient.PostAsync(url, content, ct);
+            _logger.LogInformation("[HTTP POST] {Url} → {Code}", url, (int)response.StatusCode);
         }
         catch (Exception ex) when (!ct.IsCancellationRequested)
         {

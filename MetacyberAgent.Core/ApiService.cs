@@ -89,10 +89,13 @@ public class ApiService : IDisposable
     {
         try
         {
+            var url = $"{_serverUrl}/api/capture/logs";
+            _logger.LogInformation("[HTTP POST] {Url}", url);
             var json = JsonSerializer.Serialize(entry, new JsonSerializerOptions
             { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync($"{_serverUrl}/api/capture/logs", content);
+            var response = await _httpClient.PostAsync(url, content);
+            _logger.LogInformation("[HTTP POST] {Url} → {Code}", url, (int)response.StatusCode);
         }
         catch (Exception ex)
         {
@@ -107,10 +110,13 @@ public class ApiService : IDisposable
     {
         try
         {
+            var url = $"{_serverUrl}/api/print/logs";
+            _logger.LogInformation("[HTTP POST] {Url}", url);
             var json = JsonSerializer.Serialize(entry, new JsonSerializerOptions
             { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync($"{_serverUrl}/api/print/logs", content);
+            var response = await _httpClient.PostAsync(url, content);
+            _logger.LogInformation("[HTTP POST] {Url} → {Code}", url, (int)response.StatusCode);
         }
         catch (Exception ex)
         {
@@ -125,10 +131,13 @@ public class ApiService : IDisposable
     {
         try
         {
+            var url = $"{_serverUrl}/api/tamper/logs";
+            _logger.LogInformation("[HTTP POST] {Url}", url);
             var json = JsonSerializer.Serialize(entry, new JsonSerializerOptions
             { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync($"{_serverUrl}/api/tamper/logs", content);
+            var response = await _httpClient.PostAsync(url, content);
+            _logger.LogInformation("[HTTP POST] {Url} → {Code}", url, (int)response.StatusCode);
         }
         catch (Exception ex)
         {
