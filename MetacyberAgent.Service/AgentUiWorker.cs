@@ -83,8 +83,9 @@ public class AgentUiWorker : BackgroundService
                 TimeSpan.FromSeconds(60));
 
             // تهيئة خدمة الحالة بإصدار افتراضي
+            // ✅ FIX v3.5.6: StartReporting تقبل int ليس string - نستخدم 0 كإصدار افتراضي
             _statusService = new AgentStatusService(serverUrl, productId, _logger);
-            _statusService.StartReporting(username, "offline");
+            _statusService.StartReporting(username, 0);
 
             stoppingToken.Register(() =>
             {

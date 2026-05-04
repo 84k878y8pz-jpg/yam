@@ -286,10 +286,10 @@ public class AgentWorker : BackgroundService
         // المسار الافتراضي للتثبيت على macOS
         string defaultPath = "/Library/MetacyberAgent/MetacyberAgentService";
 
-        // البحث في نفس مجلد الملف الحالي (للتطوير)
-        string? currentDir = Path.GetDirectoryName(
-            System.Reflection.Assembly.GetExecutingAssembly().Location);
-        if (currentDir != null)
+        // ✅ FIX v3.5.6: استخدام AppContext.BaseDirectory بدلاً من Assembly.Location
+        // Assembly.Location تعيد string فارغ في Single-File apps (IL3000)
+        string currentDir = AppContext.BaseDirectory;
+        if (!string.IsNullOrEmpty(currentDir))
         {
             string localPath = Path.Combine(currentDir, "MetacyberAgentService");
             if (File.Exists(localPath)) return localPath;
