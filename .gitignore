@@ -1,0 +1,7 @@
+publish/MetacyberAgentService
+publish/MetacyberAgent.Watchdog
+publish/service/MetacyberAgentService
+publish/watchdog/MetacyberAgent.Watchdog
+*.pdb
+obj/
+bin/

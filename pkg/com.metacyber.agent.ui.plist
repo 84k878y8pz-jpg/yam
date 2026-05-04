@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+    MetaCyber Agent UI - LaunchAgent
+    المسار: /Library/LaunchAgents/com.metacyber.agent.ui.plist
+    
+    يعمل في سياق كل مستخدم يسجل دخوله.
+    يُشغَّل تلقائياً عند تسجيل الدخول.
+    
+    ملاحظة: يمكن للـ LaunchDaemon إطلاقه عبر:
+    launchctl asuser <UID> launchctl load /Library/LaunchAgents/com.metacyber.agent.ui.plist
+-->
+<plist version="1.0">
+<dict>
+    <!-- معرف الخدمة -->
+    <key>Label</key>
+    <string>com.metacyber.agent.ui</string>
+
+    <!-- مسار الملف التنفيذي مع وضع UI -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Library/MetacyberAgent/MetacyberAgentService</string>
+        <string>--ui</string>
+    </array>
+
+    <!-- إعادة التشغيل التلقائي -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- التشغيل عند تسجيل الدخول -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- مسارات السجلات في مجلد المستخدم -->
+    <key>StandardOutPath</key>
+    <string>/tmp/metacyber-ui-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/metacyber-ui-stderr.log</string>
+
+    <!-- مجلد العمل -->
+    <key>WorkingDirectory</key>
+    <string>/Library/MetacyberAgent</string>
+
+    <!-- متغيرات البيئة -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>DOTNET_ENVIRONMENT</key>
+        <string>Production</string>
+    </dict>
+
+    <!-- إعادة التشغيل بعد 5 ثوانٍ -->
+    <key>ThrottleInterval</key>
+    <integer>5</integer>
+</dict>
+</plist>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+    MetaCyber Watchdog - LaunchDaemon
+    المسار: /Library/LaunchDaemons/com.metacyber.watchdog.plist
+    
+    يراقب استمرارية عمل الخدمة الرئيسية.
+    يعمل كـ root مستقلاً عن الخدمة الرئيسية.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.metacyber.watchdog</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Library/MetacyberAgent/MetacyberAgent.Watchdog</string>
+    </array>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Library/Logs/MetacyberAgent/watchdog-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Library/Logs/MetacyberAgent/watchdog-stderr.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>/Library/MetacyberAgent</string>
+
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+</dict>
+</plist>

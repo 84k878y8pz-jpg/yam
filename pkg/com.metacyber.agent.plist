@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+    MetaCyber Agent - LaunchDaemon
+    المسار: /Library/LaunchDaemons/com.metacyber.agent.plist
+    
+    يعمل كـ root في الخلفية منذ بدء تشغيل النظام.
+    KeepAlive=true يضمن إعادة التشغيل التلقائي.
+-->
+<plist version="1.0">
+<dict>
+    <!-- معرف الخدمة -->
+    <key>Label</key>
+    <string>com.metacyber.agent</string>
+
+    <!-- مسار الملف التنفيذي -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Library/MetacyberAgent/MetacyberAgentService</string>
+    </array>
+
+    <!-- إعادة التشغيل التلقائي عند التوقف -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- التشغيل عند بدء النظام -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- مسارات السجلات -->
+    <key>StandardOutPath</key>
+    <string>/Library/Logs/MetacyberAgent/daemon-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Library/Logs/MetacyberAgent/daemon-stderr.log</string>
+
+    <!-- مجلد العمل -->
+    <key>WorkingDirectory</key>
+    <string>/Library/MetacyberAgent</string>
+
+    <!-- متغيرات البيئة -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>DOTNET_ENVIRONMENT</key>
+        <string>Production</string>
+    </dict>
+
+    <!-- إعادة التشغيل بعد 10 ثوانٍ من التوقف -->
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+
+    <!-- تشغيل بصلاحيات root -->
+    <!-- ملاحظة: LaunchDaemon يعمل كـ root تلقائياً -->
+</dict>
+</plist>
