@@ -98,6 +98,13 @@ public class AgentUiWorker : BackgroundService
             return;
         }
 
+        // ✅ FIX v3.5.7: استخدام serverUrl الحقيقي من استجابة all-settings
+        // المشكلة السابقة: كان يستخدم ServerUrl من appsettings.json (https://metacyber.replit.app/API/all-settings)
+        // مما يجعل الـ endpoints خاطئة مثل: /API/all-settings/api/agents/status
+        // الحل: استخدام serverUrl المُعاد من الـ API نفسه
+        string effectiveServerUrl = _currentSettings.GetEffectiveServerUrl(serverUrl);
+        _logger.LogInformation("✅ Effective Server URL: {Url}", effectiveServerUrl);
+
         // التحقق من استثناء المستخدم
         if (WatermarkSettings.IsUserInList(username, _currentSettings.WatermarkExcludedUsers))
         {
@@ -115,16 +122,16 @@ public class AgentUiWorker : BackgroundService
             _logger.LogInformation("العلامة المائية غير نشطة (IsActive={Active})", _currentSettings.IsActive);
         }
 
-        // تهيئة خدمة الحالة
-        _statusService = new AgentStatusService(serverUrl, productId, _logger);
+        // تهيئة خدمة الحالة باستخدام الـ URL الحقيقي
+        _statusService = new AgentStatusService(effectiveServerUrl, productId, _logger);
         _statusService.StartReporting(username, _currentSettings.Version);
 
-        // تهيئة خدمة رصد التقاط الشاشة
-        _captureLogService = new CaptureLogService(serverUrl, username, _logger);
+        // تهيئة خدمة رصد التقاط الشاشة باستخدام الـ URL الحقيقي
+        _captureLogService = new CaptureLogService(effectiveServerUrl, username, _logger);
         _captureLogService.StartMonitoring();
 
-        // تهيئة خدمة رصد الطباعة
-        _printLogService = new PrintLogService(serverUrl, username, _logger);
+        // تهيئة خدمة رصد الطباعة باستخدام الـ URL الحقيقي
+        _printLogService = new PrintLogService(effectiveServerUrl, username, _logger);
         _printLogService.StartMonitoring();
 
         // تهيئة SCP

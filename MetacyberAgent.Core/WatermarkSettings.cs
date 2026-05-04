@@ -118,6 +118,22 @@ public class ApiResponse
 
     [JsonPropertyName("scp")]
     public ScpSettings? Scp { get; set; }
+
+    // ✅ FIX v3.5.7: حقول الخادم الحقيقي ومسارات الـ endpoints من استجابة all-settings
+    [JsonPropertyName("serverUrl")]
+    public string? ServerUrl { get; set; }
+
+    [JsonPropertyName("tamperLogUrl")]
+    public string? TamperLogUrl { get; set; }
+
+    [JsonPropertyName("printLogUrl")]
+    public string? PrintLogUrl { get; set; }
+
+    /// <summary>
+    /// يعيد الـ base URL الحقيقي للخادم (serverUrl من الاستجابة إن وجد)
+    /// </summary>
+    public string GetEffectiveServerUrl(string fallbackUrl)
+        => string.IsNullOrWhiteSpace(ServerUrl) ? fallbackUrl : ServerUrl.TrimEnd('/');
 }
 
 /// <summary>
